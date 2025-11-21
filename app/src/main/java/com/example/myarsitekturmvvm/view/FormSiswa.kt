@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.DividerDefaults.Thickness
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,15 +36,16 @@ import com.example.myarsitekturmvvm.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormSiswa(
-    jenisK:List<String>,
+    pilihanJK: List<String>,
+    JenisK:List<String>,
     OnSubmitButtonClicked : (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var txtNama by rememberSeveable { mutableStateOf(value = "") }
+    var txtNama by rememberSaveable { mutableStateOf(value = "") }
     var txtAlamat by remember {mutableStateOf(value = "")}
     var txtGender by remember { mutableStateOf(value = "") }
-    val listData: MutableList<String> = mutableListOf(txtNama, txtAlamat, txtGender)
+    val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
     Scaffold (modifier = Modifier,
         topBar = {
@@ -68,22 +71,32 @@ fun FormSiswa(
                     txtNama = it
                 },
             )
-            HorizontalDivider(modifier = Modifier
-                .padding(all = 20.dp)
-                .width(width = 250.dp), thickness = Thickness, color = Color.Red)
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(250.dp), thickness = Thickness, color = Color.Red
+            )
             Row {
-                    Row{
-                        pilihanJK.forEach {item ->
-                            Row(modifier = Modifier.selectable(
-                                selected = txtGender == item,
-                                onClick = {
-                                    txtGender = item
-                                }
-                            ))
+                pilihanJK.forEach { item ->
+                    Row(modifier = Modifier.selectable(
+                        selected = txtGender == item,
+                        onClick = {
+                            txtGender = item
                         }
+                    ),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = txtGender == item,
+                            onClick = {
+                                txtGender = item
+                            }
+                        )
+                        Text(text = item)
                     }
+                }
+            }
 
-                jenisK.forEach {
+                JenisK.forEach {
                         item ->
                     Row(verticalAlignment = Alignment.CenterVertically){
 
@@ -117,11 +130,9 @@ fun FormSiswa(
                 modifier = Modifier
                     .fillMaxWidth(fraction = 1f)
                     .padding(all = 25.dp),
-                enabled = txtAlamat.isNotEmpty(),
-                onClick = OnSubmitButtonClicked(listData)
+                onClick = {OnSubmitButtonClicked(listData)}
             ){
                 Text(text = stringResource(id = R.string.submit))
             }
         }
     }
-}
