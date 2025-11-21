@@ -28,13 +28,13 @@ import com.example.myarsitekturmvvm.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TampilData(
+fun TampilSiswa(
     onBackBtnClick: () -> Unit
 ){
     val items = listOf(
-        Pair(stringResource(id = R.string.nama_lengkap), "Contoh Nama"),
-        Pair(stringResource(id = R.string.jenis_kelamin), "Yang Lain"),
-        Pair(stringResource(id = R.string.alamat), "Yogyakarta")
+        Pair(stringResource(id = R.string.nama_lengkap), second = StatusUISiswa.nama),
+        Pair(stringResource(id = R.string.jenis_kelamin), second = StatusUISiswa.gender),
+        Pair(stringResource(id = R.string.alamat), second = StatusUISiswa.alamat)
     )
     Scaffold (modifier = Modifier,
         {
