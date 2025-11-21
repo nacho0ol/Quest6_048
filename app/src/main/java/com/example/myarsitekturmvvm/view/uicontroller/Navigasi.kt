@@ -22,31 +22,31 @@ enum class Navigasi {
 }
 @Composable
 fun DataApp(
-    modifier: Modifier,
-    viewModel: SiswaViewModel = viewModel (),
+    modifier: Modifier = Modifier,
+    viewModel: SiswaViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ){
-    Scaffold { isiRuang ->
+    Scaffold { isiRuang->
         val uiState = viewModel.statusUI.collectAsState()
         NavHost(
             navController = navController,
             startDestination = Navigasi.Formulirku.name,
 
-            modifier = Modifier.padding(paddingValues = isiRuang)) {
-            composable(route = Navigasi.Formulirku.name){
+            modifier = Modifier.padding(isiRuang)){
+            composable(route = Navigasi.Formulirku.name) {
                 val konteks = LocalContext.current
-                FormSiswa (
-                    pilihanJK = JenisK.map {id -> konteks.resources.getString(id)},
+                FormSiswa(
+                    pilihanJK = JenisK.map { id -> konteks.resources.getString(id) },
                     OnSubmitButtonClicked = {
                         viewModel.setSiswa(it)
-                        navController.navigate(route = Navigasi.Detail.name)
+                        navController.navigate(Navigasi.Detail.name)
                     }
                 )
             }
             composable(route = Navigasi.Detail.name){
-                TampilSiswa(
-                    statusUISiswa = uiState.value,
-                    OnSubmitButtonClicked = { cancelAndBackToFormulir(navController)}
+                TampilSiswa (
+                    statusSiswa = uiState.value,
+                    onBackBtnClicked = { cancelAndBackToFormulir(navController) }
                 )
             }
         }

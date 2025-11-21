@@ -31,7 +31,7 @@ import com.example.myarsitekturmvvm.model.Siswa
 @Composable
 fun TampilSiswa(
     statusSiswa: Siswa,
-    onBackBtnClick: () -> Unit
+    onBackBtnClicked: ()-> Unit
 ){
     val items = listOf(
         Pair(stringResource(id = R.string.nama_lengkap), second = statusSiswa.nama),
@@ -59,7 +59,7 @@ fun TampilSiswa(
                 Spacer(modifier = Modifier.height(10.dp))
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onBackBtnClick) {
+                    onClick = onBackBtnClicked) {
                     Text(stringResource(id = R.string.back))
                 }
             }

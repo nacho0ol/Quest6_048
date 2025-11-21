@@ -32,41 +32,44 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.myarsitekturmvvm.R
+import com.example.myarsitekturmvvm.model.DataJK.JenisK
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormSiswa(
     pilihanJK: List<String>,
-    JenisK:List<String>,
     OnSubmitButtonClicked : (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     var txtNama by rememberSaveable { mutableStateOf(value = "") }
-    var txtAlamat by remember {mutableStateOf(value = "")}
+    var txtAlamat by remember { mutableStateOf(value = "") }
     var txtGender by remember { mutableStateOf(value = "") }
     val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
-    Scaffold (modifier = Modifier,
+    Scaffold(
+        modifier = Modifier,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id= R.string.home), color = Color.White)},
+                title = { Text(stringResource(id = R.string.home), color = Color.White) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = colorResource(id = R.color.teal_700))
+                    containerColor = colorResource(id = R.color.teal_700)
+                )
             )
         }
-    ){
-            isiRuang ->
-        Column(modifier = Modifier.padding(paddingValues = isiRuang),
+    ) { isiRuang ->
+        Column(
+            modifier = Modifier.padding(paddingValues = isiRuang),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally){
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             OutlinedTextField(
                 value = "",
                 singleLine = true,
                 modifier = Modifier
                     .padding(top = 20.dp)
                     .width(width = 250.dp),
-                label = {Text(text = "Nama Lengkap")},
+                label = { Text(text = "Nama Lengkap") },
                 onValueChange = {
                     txtNama = it
                 },
@@ -78,7 +81,8 @@ fun FormSiswa(
             )
             Row {
                 pilihanJK.forEach { item ->
-                    Row(modifier = Modifier.selectable(
+                    Row(
+                        modifier = Modifier.selectable(
                         selected = txtGender == item,
                         onClick = {
                             txtGender = item
@@ -96,22 +100,10 @@ fun FormSiswa(
                 }
             }
 
-                JenisK.forEach {
-                        item ->
-                    Row(verticalAlignment = Alignment.CenterVertically){
-
-                        RadioButton(
-                            selected = txtGender == item,
-                            onClick = { txtGender = item }
-                        )
-                        Text(text = item)
-
-                    }
-                }
-            }
-            HorizontalDivider(modifier = Modifier
-                .padding(all = 20.dp)
-                .width(width = 250.dp),
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(all = 20.dp)
+                    .width(width = 250.dp),
                 thickness = 1.dp,
                 color = Color.Red
             )
@@ -120,7 +112,7 @@ fun FormSiswa(
                 singleLine = true,
                 modifier = Modifier
                     .width(width = 250.dp),
-                label = {Text(text = "Alamat")},
+                label = { Text(text = "Alamat") },
                 onValueChange = {
                     txtAlamat = it
                 },
@@ -130,9 +122,10 @@ fun FormSiswa(
                 modifier = Modifier
                     .fillMaxWidth(fraction = 1f)
                     .padding(all = 25.dp),
-                onClick = {OnSubmitButtonClicked(listData)}
-            ){
+                onClick = { OnSubmitButtonClicked(listData) }
+            ) {
                 Text(text = stringResource(id = R.string.submit))
             }
         }
     }
+}
